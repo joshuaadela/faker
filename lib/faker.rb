@@ -39,7 +39,7 @@ module Faker
       def locale
         Faker.load_i18n
 
-        # Because I18n.locale defaults to :en, if we don't have :en in our available_locales, errors will happen
+        # Because I18n.locale defaults to "en-US", if we don't have "en-US" in our available_locales, errors will happen
         @locale || (I18n.available_locales.include?(I18n.locale) ? I18n.locale : I18n.available_locales.first)
       end
 
@@ -174,7 +174,7 @@ module Faker
         opts[:raise] = true
         I18n.translate(*args, **opts)
       rescue I18n::MissingTranslationData
-        opts[:locale] = :en
+        opts[:locale] = "en-US"
 
         # Super-simple fallback -- fallback to en if the
         # translation was missing.  If the translation isn't

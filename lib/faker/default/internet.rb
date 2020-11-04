@@ -47,7 +47,7 @@ module Faker
           keywords << :separators if legacy_separators != NOT_GIVEN
         end
 
-        with_locale(:en) do
+        with_locale("en-US") do
           return shuffle(specifier.scan(/[[:word:]]+/)).join(sample(separators)).downcase if specifier.respond_to?(:scan)
 
           case specifier
@@ -150,7 +150,7 @@ module Faker
           keywords << :subdomain if legacy_subdomain != NOT_GIVEN
         end
 
-        with_locale(:en) do
+        with_locale("en-US") do
           if domain
             domain
               .split('.')
@@ -176,7 +176,7 @@ module Faker
       end
 
       def domain_word
-        with_locale(:en) { Char.prepare(Company.name.split(' ').first) }
+        with_locale("en-US") { Char.prepare(Company.name.split(' ').first) }
       end
 
       def domain_suffix

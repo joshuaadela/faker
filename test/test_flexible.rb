@@ -35,7 +35,7 @@ class TestFlexible < Test::Unit::TestCase
   end
 
   def test_flexible_fallbacks_to_english
-    I18n.backend.store_translations(:en, faker: { chow: { taste: 'superdelicious' } })
+    I18n.backend.store_translations("en-US", faker: { chow: { taste: 'superdelicious' } })
 
     I18n.with_locale(:home) do
       assert_equal 'superdelicious', Faker::Foodie.taste

@@ -12,7 +12,7 @@ class TestLocale < Test::Unit::TestCase
   end
 
   def test_locale_separate_from_i18n
-    I18n.locale = :en
+    I18n.locale = "en-US"
     Faker::Config.locale = :de
     assert Faker::PhoneNumber.phone_number.match(/\(0\d+\) \d+|\d+-\d+/)
     assert Faker::Address.street_name.match(//)
@@ -27,7 +27,7 @@ class TestLocale < Test::Unit::TestCase
 
   def test_locale_override_when_calling_translate
     Faker::Config.locale = 'en-BORK'
-    assert_equal Faker::Base.translate('faker.separator', locale: :en), LoadedYaml['en']['separator']
+    assert_equal Faker::Base.translate('faker.separator', locale: "en-US"), LoadedYaml['en']['separator']
   end
 
   def test_translation_fallback
@@ -37,33 +37,33 @@ class TestLocale < Test::Unit::TestCase
   end
 
   def test_translation_fallback_without_en_in_available_locales
-    I18n.available_locales -= [:en]
+    I18n.available_locales -= ["en-US"]
     Faker::Config.locale = 'en-BORK'
     assert_nil LoadedYaml['en-BORK']['name']
     assert_equal Faker::Base.translate('faker.separator'), LoadedYaml['en']['separator']
   ensure
-    I18n.available_locales += [:en]
+    I18n.available_locales += ["en-US"]
   end
 
   def test_with_locale_does_not_fail_without_the_locale_in_available_locales
-    I18n.available_locales -= [:en]
-    Faker::Base.with_locale(:en) do
+    I18n.available_locales -= ["en-US"]
+    Faker::Base.with_locale("en-US") do
       assert_equal Faker::Base.translate('faker.separator'), LoadedYaml['en']['separator']
     end
   ensure
-    I18n.available_locales += [:en]
+    I18n.available_locales += ["en-US"]
   end
 
   def test_no_en_in_available_locales
-    I18n.available_locales -= [:en]
+    I18n.available_locales -= ["en-US"]
     assert_kind_of String, Faker::Address.country
   ensure
-    I18n.available_locales += [:en]
+    I18n.available_locales += ["en-US"]
   end
 
   def test_with_locale_changes_locale_temporarily
     Faker::Config.locale = 'en-BORK'
-    I18n.with_locale(:en) do
+    I18n.with_locale("en-US") do
       assert_equal Faker::Base.translate('faker.separator'), LoadedYaml['en']['separator']
     end
     assert_equal 'en-BORK', Faker::Config.locale
